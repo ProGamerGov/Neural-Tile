@@ -1,7 +1,12 @@
 #! /bin/bash
 
+
+#1920/3=640 and Multries starts at 640. So multires tile size is good. 
+
 # DEFINES
-EXPAND_BORDER=50 # expanded border while cropping 
+IMAGE_SIZE=1000 # -image_size for neural-style
+ITERATIONS=250 # -num_iterations for neural-style
+EXPAND_BORDER=20 # expanded border while cropping 
 
 main(){
 	# 1. defines
@@ -104,72 +109,9 @@ retry=0
 neural_style(){
 	echo "Neural Style Transfering "$1
 	if [ ! -s $3 ]; then
-	
-#################################################################################
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -image_size 640 \
-  -output_image out1.png \
-   [Put Your Command Paramters Here] 
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out1.png \
-  [Put Your Command Paramters Here] \
-  -output_image out2.png \
-  -image_size 768 \
-  -num_iterations 500 \
- 
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out2.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1024 \
-  -num_iterations 200 \
-  -output_image out3.png \
-
-th neural_style.lua $input \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out3.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1152 \
-  -num_iterations 200 \
-  -output_image out4.png \
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out4.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1536 \
-  -num_iterations 200 \
-  -output_image out5.png \
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out5.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1664 \
-  -num_iterations 200 \
-  -output_image out6.png \
-
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out6.png \
- [Put Your Command Paramters Here] \
-  -image_size 1920 \
-  -num_iterations 100 \
-  -output_image $out_file \
-  
-#################################################################################
-
+		th neural_style.lua -content_image $1 -style_image $2 -output_image $3 \
+				-image_size $IMAGE_SIZE -print_iter 100 -backend cudnn -gpu 0 -save_iter 0 \
+				-style_weight 20 -num_iterations $ITERATIONS 
 	fi
 	if [ ! -s $3 ] && [ $retry -lt 3 ] ;then
 			echo "Transfer Failed, Retrying for $retry time(s)"
@@ -184,72 +126,9 @@ retry=0
 neural_style_tiled(){
 	echo "Neural Style Transfering "$1
 	if [ ! -s $3 ]; then
-	
-#################################################################################
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -image_size 640 \
-  -output_image out1.png \
-   [Put Your Command Paramters Here] 
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out1.png \
-  [Put Your Command Paramters Here] \
-  -output_image out2.png \
-  -image_size 768 \
-  -num_iterations 500 \
- 
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out2.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1024 \
-  -num_iterations 200 \
-  -output_image out3.png \
-
-th neural_style.lua $input \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out3.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1152 \
-  -num_iterations 200 \
-  -output_image out4.png \
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out4.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1536 \
-  -num_iterations 200 \
-  -output_image out5.png \
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out5.png \
-  [Put Your Command Paramters Here] \
-  -image_size 1664 \
-  -num_iterations 200 \
-  -output_image out6.png \
-
-
-th neural_style.lua \
-  -content_image $1 \
-  -style_image $2 \
-  -init image -init_image out6.png \
- [Put Your Command Paramters Here] \
-  -image_size 1920 \
-  -num_iterations 100 \
-  -output_image $3 \
-  
-#################################################################################
-
+		th neural_style.lua -content_image $1 -style_image $2 -output_image $3 \
+			-image_size $IMAGE_SIZE -print_iter 100 -backend cudnn -gpu 0 -save_iter 0 \
+				-style_weight 20 -num_iterations $ITERATIONS 
 	fi
 	if [ ! -s $3 ] && [ $retry -lt 3 ] ;then
 			echo "Transfer Failed, Retrying for $retry time(s)"
@@ -260,3 +139,4 @@ th neural_style.lua \
 }
 
 main $1 $2 $3
+
