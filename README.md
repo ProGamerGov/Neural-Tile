@@ -2,7 +2,8 @@
 A better tiling script for Neural-Style
 
 # Requirements
-You should have [Neural-Style](https://github.com/jcjohnson/neural-style/) first!
+
+A Neural Art project like [Neural-Style](https://github.com/jcjohnson/neural-style/)
 
 And ImageMagick, install it with:
 
