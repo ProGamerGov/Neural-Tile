@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash 
 
 # Check for output directory, and create it if missing
 if [ ! -d "$output" ]; then
@@ -24,8 +24,8 @@ main(){
 	if [ ! -s $out_file ] ; then
 		neural_style $input $style $out_file
 	fi
-  #convert $input -resize 1000x1000 $out_file #juse resize
 	
+
 	w1=`convert $out_file -format "%w" info:`
 	h1=`convert $out_file -format "%h" info:`
 	
@@ -35,13 +35,8 @@ main(){
 	convert $out_file -crop 3x3+50+50@ +repage +adjoin $out_dir/$clean_name"_%d.png"
 	#To change the crop values, change the +20+20 on line 35, and change the "20" on lines 77,78,99,100. Make sure to use the same value.
 	
-	# tile style
-	#convert $style -crop 3x3+20+20@ +repage +adjoin $style_dir/$style_name"_%d.png"
-	
 	w2=`convert $out_dir/$clean_name'_0.png' -format "%w" info:`
 	h2=`convert $out_dir/$clean_name'_0.png' -format "%h" info:`
-	#w_percent=`echo 20 $w2 | awk '{print $1/$2}'`
-	#h_percent=`echo 20 $h2 | awk '{print $1/$2}'`
 
 	
 	
@@ -62,15 +57,11 @@ main(){
 	mkdir -p $tiles_dir
 	for tile in `ls $out_dir | grep $clean_name"_"[0-9]".png"`
 	do
-		#for i in $( seq 0 8 ); do
-		#	neural_style $out_dir/$clean_name"_$i.png" $style_dir/$style_name"_$i.png" $tiles_dir/$clean_name"_$i.png"
-		#done
 		neural_style_tiled $out_dir/$tile $style $tiles_dir/$tile
 	done
 	
-	#Test	
 
-
+        # 5. Perform the math required for the tiling and combining process
 
 	w2_2=`convert $tiles_dir/$clean_name'_0.png' -format "%w" info:`
 	h2_2=`convert $tiles_dir/$clean_name'_0.png' -format "%h" info:`
@@ -90,18 +81,42 @@ main(){
 
 	border_w=`echo $border_w_2 $w_20 | awk '{print $1+$2}'`
 	border_h=`echo $border_h_2 $h_20 | awk '{print $1+$2}'`
-
-	#border_w=`echo $w1 $w_percent | awk '{print $1*$2}'`
-	#border_h=`echo $h1 $h_percent | awk '{print $1*$2}'`
-
-	
 	
 	w_percent=`echo 50 $w2_2 | awk '{print $1/$2}'`
 	h_percent=`echo 50 $h2_2 | awk '{print $1/$2}'`
 
-	#Test
 
-	# 5. feather tiles
+	smush_border_value_w=`echo $border_w 2 | awk '{print $1/$2}'`
+	smush_border_value_h=`echo $border_h 2 | awk '{print $1/$2}'`
+
+	smush_double_w=`echo $border_w 2 | awk '{print $1*$2}'`
+	smush_double_h=`echo $border_h 2 | awk '{print $1*$2}'`
+
+
+	smush_value_w1=`echo $smush_double_w $smush_border_value_w | awk '{print $1-$2}'`
+	smush_value_h1=`echo $smush_double_h $smush_border_value_h | awk '{print $1-$2}'`
+	#smush_value_w=128.9951
+	#smush_value_h=128.9951
+	smush_calc_value_w=`echo $smush_border_value_w 4 | awk '{print $1/$2}'`
+	smush_calc_value_h=`echo $smush_border_value_h 4 | awk '{print $1/$2}'`
+
+	smush_value_w=`echo $smush_value_w1 $smush_calc_value_w | awk '{print $1-$2}'`
+	smush_value_h=`echo $smush_value_h1 $smush_calc_value_h | awk '{print $1-$2}'`
+
+echo $border_w
+echo $border_h
+echo $smush_border_value_w
+echo $smush_border_value_h
+echo $smush_double_w
+echo $smush_double_h
+echo $smush_calc_value_w
+echo $smush_calc_value_h
+echo $smush_value_w1
+echo $smush_value_h1
+echo $smush_value_w
+echo $smush_value_h
+
+	# 6. Feather the tiles
 	feathered_dir=$out_dir/feathered
 	mkdir -p $feathered_dir
 	for tile in `ls $tiles_dir | grep $clean_name"_"[0-9]".png"`
@@ -110,24 +125,22 @@ main(){
 		convert $tiles_dir/$tile -alpha set -virtual-pixel transparent -channel A -morphology Distance Euclidean:1,50\! +channel "$feathered_dir/$tile_name.png"
 	done
 	
-	# 6. merge feathered tiles
-	montage $feathered_dir/$clean_name'_0.png' $feathered_dir/$clean_name'_1.png' \
-					$feathered_dir/$clean_name'_2.png' $feathered_dir/$clean_name'_3.png' \
-					$feathered_dir/$clean_name'_4.png' $feathered_dir/$clean_name'_5.png' \
-					$feathered_dir/$clean_name'_6.png' $feathered_dir/$clean_name'_7.png' \
-					$feathered_dir/$clean_name'_8.png'  -tile 3x3 -geometry -$border_w-$border_h -background none -debug trace $output/$clean_name.large_feathered.png
- # -$border_w-$border_h
-
-	# 7. merge un-feathered tiles
-	montage $tiles_dir/$clean_name'_0.png' $tiles_dir/$clean_name'_1.png' \
-					$tiles_dir/$clean_name'_2.png' $tiles_dir/$clean_name'_3.png' \
-					$tiles_dir/$clean_name'_4.png' $tiles_dir/$clean_name'_5.png' \
-					$tiles_dir/$clean_name'_6.png' $tiles_dir/$clean_name'_7.png' \
-					$tiles_dir/$clean_name'_8.png'  -tile 3x3 -geometry -$border_w-$border_h -background none -debug trace $output/$clean_name.large.png
-			
+	# 7. Smush the feathered tiles together
+	convert \( $feathered_dir/$clean_name'_0.png' $feathered_dir/$clean_name'_1.png' $feathered_dir/$clean_name'_2.png' +smush -$smush_value_w \) \
+	\( $feathered_dir/$clean_name'_3.png' $feathered_dir/$clean_name'_4.png' $feathered_dir/$clean_name'_5.png' +smush -$smush_value_w \) \
+	\( $feathered_dir/$clean_name'_6.png' $feathered_dir/$clean_name'_7.png' $feathered_dir/$clean_name'_8.png' +smush -$smush_value_w \) \
+	-background none -smush -$smush_value_h  $output/$clean_name.large_feathered.png
 
 
-	# 8. Combine feathered and un-feathered output images to disguise feathering.
+	# 8. Smush the non-feathered tiles together
+
+	convert \( $tiles_dir/$clean_name'_0.png' $tiles_dir/$clean_name'_1.png' $tiles_dir/$clean_name'_2.png' +smush -$smush_value_w \) \
+	\( $tiles_dir/$clean_name'_3.png' $tiles_dir/$clean_name'_4.png' $tiles_dir/$clean_name'_5.png' +smush -$smush_value_w \) \
+	\( $tiles_dir/$clean_name'_6.png' $tiles_dir/$clean_name'_7.png' $tiles_dir/$clean_name'_8.png' +smush -$smush_value_w \) \
+	-background none -smush -$smush_value_h  $output/$clean_name.large.png
+
+
+	# 9. Combine feathered and un-feathered output images to disguise feathering.
 
 	composite $output/$clean_name.large_feathered.png $output/$clean_name.large.png $output/$clean_name.large_final.png
 
@@ -138,7 +151,20 @@ neural_style(){
 	echo "Neural Style Transfering "$1
 	if [ ! -s $3 ]; then
 #####################################################################################
-th neural_style.lua \ #Commands here
+th neural_style.lua \
+  -content_image $1 \
+  -style_image $2 \
+  -image_size 640 \
+  -output_image out1.png \
+  -num_iterations 100 
+
+th neural_style.lua \
+  -content_image $1 \
+  -style_image $2 \
+  -init image -init_image out1.png \
+  -output_image $3 \
+  -image_size 768 \
+  -num_iterations 50 \
 #####################################################################################
 	fi
 	if [ ! -s $3 ] && [ $retry -lt 3 ] ;then
@@ -155,7 +181,22 @@ neural_style_tiled(){
 	echo "Neural Style Transfering "$1
 	if [ ! -s $3 ]; then
 #####################################################################################	
-th neural_style.lua \ #Commands here
+
+th neural_style.lua \
+  -content_image $1 \
+  -style_image $2 \
+  -image_size 719 \
+  -output_image out1.png \
+  -num_iterations 100 
+
+th neural_style.lua \
+  -content_image $1 \
+  -style_image $2 \
+  -init image -init_image out1.png \
+  -output_image $3 \
+  -image_size 720 \
+  -num_iterations 50 
+ 
 #####################################################################################
 	fi
 	if [ ! -s $3 ] && [ $retry -lt 3 ] ;then
