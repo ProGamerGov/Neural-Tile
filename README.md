@@ -11,11 +11,11 @@ And ImageMagick, install it with:
 # Usage
 Copy this script to neural-style directory, then run:
 
-`./bigbrush.sh input_file style_file`
+`./multires_tiled.sh input_file style_file`
 
 If you face a permission error, try using chmod to fix the issue: 
 
-`chmod u+x ./bigbrush.sh`
+`chmod u+x ./multires_tiled.sh`
 
 # How It Works
 
