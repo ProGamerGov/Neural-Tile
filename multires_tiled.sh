@@ -130,11 +130,15 @@ main(){
 	\( $feathered_dir/$clean_name'_6.png' $feathered_dir/$clean_name'_7.png' $feathered_dir/$clean_name'_8.png' -background transparent +smush -$smush_value_w \) \
 	-background none  -background transparent -smush -$smush_value_h  $output/$clean_name.large_feathered.png
 
-	# 7. Smush the feathered tiles together
-	convert \( $feathered_dir/$clean_name'_0.png' $feathered_dir/$clean_name'_1.png' $feathered_dir/$clean_name'_2.png' -background transparent +smush -$smush_value_w \) \
-	\( $feathered_dir/$clean_name'_3.png' $feathered_dir/$clean_name'_4.png' $feathered_dir/$clean_name'_5.png' -background transparent +smush -$smush_value_w \) \
-	\( $feathered_dir/$clean_name'_6.png' $feathered_dir/$clean_name'_7.png' $feathered_dir/$clean_name'_8.png' -background transparent +smush -$smush_value_w \) \
-	-background none  -background transparent -smush -$smush_value_h  $output/$clean_name.large_feathered.png
+
+	# 8. Smush the non-feathered tiles together
+
+	convert \( $tiles_dir/$clean_name'_0.png' $tiles_dir/$clean_name'_1.png' $tiles_dir/$clean_name'_2.png' +smush -$smush_value_w \) \
+		\( $tiles_dir/$clean_name'_3.png' $tiles_dir/$clean_name'_4.png' $tiles_dir/$clean_name'_5.png' +smush -$smush_value_w \) \
+		\( $tiles_dir/$clean_name'_6.png' $tiles_dir/$clean_name'_7.png' $tiles_dir/$clean_name'_8.png' +smush -$smush_value_w \) \
+		-background none -smush -$smush_value_h  $output/$clean_name.large.png
+
+
 
 			
 
