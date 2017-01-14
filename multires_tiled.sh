@@ -120,7 +120,7 @@ th neural_style.lua \
   -init image -init_image out1.png \
   -output_image $3 \
   -image_size 768 \
-  -num_iterations 50 \
+  -num_iterations 50 
 #####################################################################################
 	fi
 	if [ ! -s $3 ] && [ $retry -lt 3 ] ;then
