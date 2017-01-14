@@ -10,7 +10,10 @@ And ImageMagick, install it with:
 `sudo apt-get install imagemagick`
 
 # Usage
-Copy this script to neural-style directory, then run:
+Copy this script to neural-style directory and add your [Neural-Style](https://github.com/jcjohnson/neural-style/) or [other neural network based image project](https://github.com/jcjohnson/neural-style/wiki/Similar-to-Neural-Style) settings on [lines 153-168](https://github.com/ProGamerGov/Neural-Tile/blob/master/multires_tiled.sh#L153-L168) for the initial run through of the script. Then add the same settings, or different ones, to [lines 183-200](https://github.com/ProGamerGov/Neural-Tile/blob/master/multires_tiled.sh#L183-L200) for the tiles. 
+
+
+Then run:
 
 `./multires_tiled.sh input_file style_file`
 
