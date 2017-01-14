@@ -59,4 +59,4 @@ th neural_style.lua \
  [Put Your Command Paramters Here] \
   -image_size 1920 \
   -num_iterations 100 \
-  -output_image out7.png \
+  -output_image out7.png 
