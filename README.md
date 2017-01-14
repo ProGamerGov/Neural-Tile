@@ -22,9 +22,9 @@ If you face a permission error, try using chmod to fix the issue:
 
 If you have an already styled image, or had to stop the script before all the tiles were made, the script will automaticaly pickup where it left off at:
 
-* To use a previously styled image, place the image into in your Neural-Style/output/<Styled_Image> directory and change your specified "content_image" parameter to the name of your previously styled image.
+* To use a previously styled image, place the image into in your `Neural-Style/output/<Styled_Image>` directory and change your specified "content_image" parameter to the name of your previously styled image.
 
-* To continue with already processed tiles, place the original tiles into the Neural-Style/output/<Image_Name>/ directory. Place the previvously styled tiles into the Neural-Style/output/<Image_Name>/tiles/ directory. Note that it if you are using tiles that you ran through Neural-Style in a previous session, make sure you are using the Neural-Style parameters for both sessions. 
+* To continue with already processed tiles, place the original tiles into the `Neural-Style/output/<Image_Name>/` directory. Place the previvously styled tiles into the `Neural-Style/output/<Image_Name>/tiles/` directory. Note that it if you are using tiles that you ran through Neural-Style in a previous session, make sure you are using the Neural-Style parameters for both sessions. 
 
 # How It Works
 
