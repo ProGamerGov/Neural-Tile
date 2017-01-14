@@ -12,14 +12,19 @@ And ImageMagick, install it with:
 # Usage
 Copy this script to neural-style directory and add your [Neural-Style](https://github.com/jcjohnson/neural-style/) or [other neural network based image project](https://github.com/jcjohnson/neural-style/wiki/Similar-to-Neural-Style) settings on [lines 153-168](https://github.com/ProGamerGov/Neural-Tile/blob/master/multires_tiled.sh#L153-L168) for the initial run through of the script. Then add the same settings, or different ones, to [lines 183-200](https://github.com/ProGamerGov/Neural-Tile/blob/master/multires_tiled.sh#L183-L200) for the tiles. Whether or not you are doing multires, or the normal process, make sure that `-content_image $1`, `-style_image $2`, and `-output_image $3` remain the same for everytime the neural art project is ran with your settings. If using multires, then `-output_image $3` only needs to remain for the last run through in the chain. 
 
-
 Then run:
 
-`./multires_tiled.sh input_file style_file`
+`./multires_tiled.sh content_image style_image`
 
 If you face a permission error, try using chmod to fix the issue: 
 
 `chmod u+x ./multires_tiled.sh`
+
+If you have an already styled image, or had to stop the script before all the tiles were made, the script will automaticaly pickup where it left off at:
+
+* To use a previously styled image, place the image into in your Neural-Style/output/<Styled_Image> directory and change your specified "content_image" parameter to the name of your previously styled image.
+
+* To continue with already processed tiles, place the original tiles into the Neural-Style/output/<Image_Name>/ directory. Place the previvously styled tiles into the Neural-Style/output/<Image_Name>/tiles/ directory. Note that it if you are using tiles that you ran through Neural-Style in a previous session, make sure you are using the Neural-Style parameters for both sessions. 
 
 # How It Works
 
