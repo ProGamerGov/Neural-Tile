@@ -24,10 +24,9 @@ main(){
 	if [ ! -s $out_file ] ; then
 		neural_style $input $style $out_file
 	fi
-  #convert $input -resize 1000x1000 $out_file #juse resize
 	
-	w1=`convert $out_file -format "%w" info:`
-	h1=`convert $out_file -format "%h" info:`
+	original_output_w=`convert $out_file -format "%w" info:`
+	original_output_h=`convert $out_file -format "%h" info:`
 	
 	# 3. tile it
 	out_dir=$output/$clean_name
@@ -35,27 +34,22 @@ main(){
 	convert $out_file -crop 3x3+50+50@ +repage +adjoin $out_dir/$clean_name"_%d.png"
 	#To change the crop values, change the +20+20 on line 35, and change the "20" on lines 77,78,99,100. Make sure to use the same value.
 	
-	# tile style
-	#convert $style -crop 3x3+20+20@ +repage +adjoin $style_dir/$style_name"_%d.png"
-	
-	w2=`convert $out_dir/$clean_name'_0.png' -format "%w" info:`
-	h2=`convert $out_dir/$clean_name'_0.png' -format "%h" info:`
-	#w_percent=`echo 20 $w2 | awk '{print $1/$2}'`
-	#h_percent=`echo 20 $h2 | awk '{print $1/$2}'`
+	original_tile_w=`convert $out_dir/$clean_name'_0.png' -format "%w" info:`
+	original_tile_h=`convert $out_dir/$clean_name'_0.png' -format "%h" info:`
 
 	
 	
-	#Resize all tiles to avoid ImageMagick weirdness
-	 convert $out_dir/$clean_name'_0.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_0.png'
-	 convert $out_dir/$clean_name'_1.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_1.png'
-	 convert $out_dir/$clean_name'_2.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_2.png'
-	 convert $out_dir/$clean_name'_3.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_3.png'
-	 convert $out_dir/$clean_name'_4.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_4.png'
-	 convert $out_dir/$clean_name'_5.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_5.png'
-	 convert $out_dir/$clean_name'_6.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_6.png'
-	 convert $out_dir/$clean_name'_7.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_7.png'
-	 convert $out_dir/$clean_name'_8.png' -resize "$w2"x"$h2"\! $out_dir/$clean_name'_8.png'	 					
-					#WxH			
+	 #Resize all tiles to avoid ImageMagick weirdness
+	 convert $out_dir/$clean_name'_0.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_0.png' 
+	 convert $out_dir/$clean_name'_1.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_1.png'
+	 convert $out_dir/$clean_name'_2.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_2.png'
+	 convert $out_dir/$clean_name'_3.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_3.png'
+	 convert $out_dir/$clean_name'_4.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_4.png'
+	 convert $out_dir/$clean_name'_5.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_5.png'
+	 convert $out_dir/$clean_name'_6.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_6.png'
+	 convert $out_dir/$clean_name'_7.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_7.png'
+	 convert $out_dir/$clean_name'_8.png' -resize "$original_tile_w"x"$original_tile_h"\! $out_dir/$clean_name'_8.png'	 					
+					#WxH				
 
 	# 4. neural-style each tile
 	tiles_dir="$out_dir/tiles"
@@ -68,52 +62,20 @@ main(){
 		neural_style_tiled $out_dir/$tile $style $tiles_dir/$tile
 	done
 	
-	#Test	
+	#Perform the required mathematical operations:	
 
+	upres_tile_w=`convert $tiles_dir/$clean_name'_0.png' -format "%w" info:`
+	upres_tile_h=`convert $tiles_dir/$clean_name'_0.png' -format "%h" info:`
 
-
-	w2_2=`convert $tiles_dir/$clean_name'_0.png' -format "%w" info:`
-	h2_2=`convert $tiles_dir/$clean_name'_0.png' -format "%h" info:`
-	w_20=50
-	h_20=50
-
-	#w2_22="$w2"/"$w2_2"
-	#h2_22="$h2"/"$h2_2"
-
-	w2_22=`echo $w2 $w2_2 | awk '{print $1/$2}'`
-	h2_22=`echo $h2 $h2_2 | awk '{print $1/$2}'`
-
-
-	border_w_2=`echo $w2_22 $w_20 | awk '{print $1*$2}'`
-	border_h_2=`echo $h2_22 $h_20 | awk '{print $1*$2}'`
+	overlap_w=50
+	overlap_h=50
 	
+	tile_diff_w=`echo $upres_tile_w $original_tile_w | awk '{print $1/$2}'`
+	tile_diff_h=`echo $upres_tile_h $original_tile_h | awk '{print $1/$2}'`
 
-	border_w=`echo $border_w_2 $w_20 | awk '{print $1+$2}'`
-	border_h=`echo $border_h_2 $h_20 | awk '{print $1+$2}'`
-
-	#border_w=`echo $w1 $w_percent | awk '{print $1*$2}'`
-	#border_h=`echo $h1 $h_percent | awk '{print $1*$2}'`
-
+	smush_value_w=`echo $overlap_w $tile_diff_w | awk '{print $1*$2}'`
+	smush_value_h=`echo $overlap_h $tile_diff_h | awk '{print $1*$2}'`
 	
-	
-	w_percent=`echo 50 $w2_2 | awk '{print $1/$2}'`
-	h_percent=`echo 50 $h2_2 | awk '{print $1/$2}'`
-
-	smush_border_value_w=`echo $border_w 2 | awk '{print $1/$2}'`
-	smush_border_value_h=`echo $border_h 2 | awk '{print $1/$2}'`
-
-	smush_double_w=`echo $border_w 2 | awk '{print $1*$2}'`
-	smush_double_h=`echo $border_h 2 | awk '{print $1*$2}'`
-
-
-	smush_value_w1=`echo $smush_double_w $smush_border_value_w | awk '{print $1-$2}'`
-	smush_value_h1=`echo $smush_double_h $smush_border_value_h | awk '{print $1-$2}'`
-	smush_calc_value_w=`echo $smush_border_value_w 4 | awk '{print $1/$2}'`
-	smush_calc_value_h=`echo $smush_border_value_h 4 | awk '{print $1/$2}'`
-	smush_value_w=`echo $smush_value_w1 $smush_calc_value_w | awk '{print $1-$2}'`
-	smush_value_h=`echo $smush_value_h1 $smush_calc_value_h | awk '{print $1-$2}'`
-
-	#Test
 
 	# 5. feather tiles
 	feathered_dir=$out_dir/feathered
@@ -125,11 +87,11 @@ main(){
 	done
 	
 	# 7. Smush the feathered tiles together
-	convert \( $feathered_dir/$clean_name'_0.png' $feathered_dir/$clean_name'_1.png' $feathered_dir/$clean_name'_2.png' -background transparent +smush -$smush_value_w \) \
-	\( $feathered_dir/$clean_name'_3.png' $feathered_dir/$clean_name'_4.png' $feathered_dir/$clean_name'_5.png' -background transparent +smush -$smush_value_w \) \
-	\( $feathered_dir/$clean_name'_6.png' $feathered_dir/$clean_name'_7.png' $feathered_dir/$clean_name'_8.png' -background transparent +smush -$smush_value_w \) \
-	-background none  -background transparent -smush -$smush_value_h  $output/$clean_name.large_feathered.png
 
+	convert -background transparent \( $feathered_dir/$clean_name'_0.png' $feathered_dir/$clean_name'_1.png' $feathered_dir/$clean_name'_2.png' +smush -$smush_value_w -background transparent \) \
+		\( $feathered_dir/$clean_name'_3.png' $feathered_dir/$clean_name'_4.png' $feathered_dir/$clean_name'_5.png' +smush -$smush_value_w -background transparent \) \
+		\( $feathered_dir/$clean_name'_6.png' $feathered_dir/$clean_name'_7.png' $feathered_dir/$clean_name'_8.png' +smush -$smush_value_w -background transparent \) \
+		-background none  -background transparent -smush -$smush_value_h  $output/$clean_name.large_feathered.png
 
 	# 8. Smush the non-feathered tiles together
 
@@ -137,8 +99,6 @@ main(){
 		\( $tiles_dir/$clean_name'_3.png' $tiles_dir/$clean_name'_4.png' $tiles_dir/$clean_name'_5.png' +smush -$smush_value_w \) \
 		\( $tiles_dir/$clean_name'_6.png' $tiles_dir/$clean_name'_7.png' $tiles_dir/$clean_name'_8.png' +smush -$smush_value_w \) \
 		-background none -smush -$smush_value_h  $output/$clean_name.large.png
-
-
 
 			
 
@@ -191,7 +151,7 @@ th neural_style.lua \
   -image_size 640 \
   -output_image out1.png \
   -num_iterations 100 \
- 
+  
 th neural_style.lua \
   -content_image $1 \
   -style_image $2 \
