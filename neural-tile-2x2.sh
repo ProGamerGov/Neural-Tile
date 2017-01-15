@@ -32,10 +32,10 @@ main(){
 		neural_style $input $style $out_file
 	fi
 	
-	# 3. Chop the styled image into 3x3 tiles with the specified overlap value.
+	# 3. Chop the styled image into 2x2 tiles with the specified overlap value.
 	out_dir=$output/$clean_name
 	mkdir -p $out_dir
-	convert $out_file -crop 3x3+"$overlap_w"+"$overlap_h"@ +repage +adjoin $out_dir/$clean_name"_%d.png"
+	convert $out_file -crop 2x2+"$overlap_w"+"$overlap_h"@ +repage +adjoin $out_dir/$clean_name"_%d.png"
 	
 	#Finds out the length and width of the first tile as a refrence point for resizing the other tiles.
 	original_tile_w=`convert $out_dir/$clean_name'_0.png' -format "%w" info:`
