@@ -14,11 +14,11 @@ Copy this script to neural-style directory and add your [Neural-Style](https://g
 
 Then run:
 
-`./multires_tiled.sh content_image style_image`
+`./neural-tile.sh content_image style_image`
 
 If you face a permission error, try using chmod to fix the issue: 
 
-`chmod u+x ./multires_tiled.sh`
+`chmod u+x ./neural-tile.sh`
 
 If you have an already styled image, or had to stop the script before all the tiles were made, the script will automaticaly pickup where it left off at:
 
