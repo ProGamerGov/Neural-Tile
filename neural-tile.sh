@@ -109,7 +109,7 @@ th neural_style.lua \
   -style_image $2 \
   -image_size 640 \
   -output_image out1.png \
-  -num_iterations 100 \
+  -num_iterations 100 
   
 th neural_style.lua \
   -content_image $1 \
@@ -140,7 +140,7 @@ th neural_style.lua \
   -style_image $2 \
   -image_size 640 \
   -output_image out1.png \
-  -num_iterations 100 \
+  -num_iterations 100 
   
 th neural_style.lua \
   -content_image $1 \
