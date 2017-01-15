@@ -70,7 +70,7 @@ main(){
 	# 5. feather tiles
 	feathered_dir=$out_dir/feathered
 	mkdir -p $feathered_dir
-	for tile in `ls $tiles_dir | grep $clean_name"_"[0-9]".png"`
+	for tile in `ls $tiles_dir | grep $clean_name"_"[0-4]".png"`
 	do
 		tile_name="${tile%.*}"
 		convert $tiles_dir/$tile -alpha set -virtual-pixel transparent -channel A -morphology Distance Euclidean:1,50\! +channel "$feathered_dir/$tile_name.png"
