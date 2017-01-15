@@ -29,6 +29,10 @@ If you have an already styled image, or had to stop the script before all the ti
 
 * To continue with already processed tiles, place the original tiles into the `Neural-Style/output/<Image_Name>/` directory. Place the previvously styled tiles into the `Neural-Style/output/<Image_Name>/tiles/` directory. Note that it if you are using tiles that you ran through Neural-Style in a previous session, make sure you are using the Neural-Style parameters for both sessions. 
 
+If you are using multires and want the tiled image to look similar to your original styled image: 
+
+* The style_scale value that results in zero style change, is the square root of the number of tiles the image was divided into.
+
 # How It Works
 
 ## 1. Generate The First Output Image:
