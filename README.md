@@ -10,6 +10,9 @@ And ImageMagick, install it with:
 `sudo apt-get install imagemagick`
 
 # Usage
+
+The default version of the script is 3x3 tiles. 
+
 Copy this script to neural-style directory and add your [Neural-Style](https://github.com/jcjohnson/neural-style/) or [other neural network based image project](https://github.com/jcjohnson/neural-style/wiki/Similar-to-Neural-Style) settings on [lines 109-124](https://github.com/ProGamerGov/Neural-Tile/blob/master/multires_tiled.sh#L109-L124) for the initial run through of the script. Then add the same settings, or different ones, to [lines 139-156](https://github.com/ProGamerGov/Neural-Tile/blob/master/multires_tiled.sh#L139-L156) for the tiles. Whether or not you are doing multires, or the normal process, make sure that `-content_image $1`, `-style_image $2`, and `-output_image $3` remain the same for everytime the neural art project is ran with your settings. If using multires, then `-output_image $3` only needs to remain for the last run through/step in the chain. 
 
 Then run:
