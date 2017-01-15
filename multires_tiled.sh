@@ -65,9 +65,6 @@ main(){
 
 	upres_tile_w=`convert $tiles_dir/$clean_name'_0.png' -format "%w" info:`
 	upres_tile_h=`convert $tiles_dir/$clean_name'_0.png' -format "%h" info:`
-
-	overlap_w=50
-	overlap_h=50
 	
 	tile_diff_w=`echo $upres_tile_w $original_tile_w | awk '{print $1/$2}'`
 	tile_diff_h=`echo $upres_tile_h $original_tile_h | awk '{print $1/$2}'`
