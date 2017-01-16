@@ -31,7 +31,7 @@ If you have an already styled image, or had to stop the script before all the ti
 
 If you are using multires and want the tiled image to look similar to your original styled image: 
 
-* The style_scale value that results in zero style change, is the square root of the number of tiles the image was divided into.
+* The style scale value that results in zero style change, is the square root of the number of tiles the image was divided into.
 
 * Using `-original_colors 1` may also help prevent style drift, at least in terms of color.
 
