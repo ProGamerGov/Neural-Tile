@@ -33,6 +33,8 @@ If you are using multires and want the tiled image to look similar to your origi
 
 * The style_scale value that results in zero style change, is the square root of the number of tiles the image was divided into.
 
+* Using `-original_colors 1` may also help prevent style drift, at least in terms of color.
+
 # How It Works
 
 ## 1. Generate The First Output Image:
