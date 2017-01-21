@@ -33,7 +33,7 @@ Due to the way the script creates and procceses the tiles, it should be possible
 
 If you are using multires or the normal single step process and want the tiled image to look similar to your original styled image: 
 
-* The style scale value that results in zero style change, is the square root of the number of tiles the image was divided into.
+* The style scale value that results in zero style change, is the square root of the number of tiles the image was divided into. This equation will need to be adjusted if you use a style scale value other than 1 for the initial image styling. 
 
 * Using `-original_colors 1` may also help prevent style drift, at least in terms of color.
 
