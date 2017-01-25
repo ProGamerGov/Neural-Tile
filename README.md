@@ -49,6 +49,8 @@ You can adjust the amount of overlap in any of the tiling scripts by changing th
 	`overlap_h=50`
 * Generally speaking, the larger the overlap value, the better your tiles will blend together. Though a larger overlap value results in a smaller output image. The default values have been tested to work with many different output images.
 
+* Using two different overlap values for the height and width has not been tested yet, so it is recommended you use the same value for both.
+
 # How It Works
 
 ## 1. Generate The First Output Image:
