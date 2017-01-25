@@ -44,9 +44,10 @@ If you are using multires or the normal single step process and want the tiled i
 
 You can adjust the amount of overlap in any of the tiling scripts by changing the values on these lines:
 
-`#Defines the overlap
-	overlap_w=50
-	overlap_h=50`
+`#Defines the overlap`
+	`overlap_w=50`
+	`overlap_h=50`
+* Generally speaking, the larger the overlap value, the better your tiles will blend together. Though a larger overlap value results in a smaller output image. The default values have been tested to work with many different output images.
 
 # How It Works
 
