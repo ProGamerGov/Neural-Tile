@@ -42,6 +42,8 @@ If you are using multires or the normal single step process and want the tiled i
 
 * Using `-original_colors 1` may also help prevent style drift, at least in terms of color.
 
+* The amount of drift a tile undergoes, is dependent on the tile's content.
+
 You can adjust the amount of overlap in any of the tiling scripts by changing the values on these lines:
 
 `#Defines the overlap`
