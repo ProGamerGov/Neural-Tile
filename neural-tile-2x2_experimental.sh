@@ -1,4 +1,4 @@
-#! /bin/bash -xv
+#! /bin/bash 
 
 #This experimental script requires this script: http://www.fmwconcepts.com/imagemagick/transfercolor/index.php 
 #to be placed into your Neural-Style directory.
