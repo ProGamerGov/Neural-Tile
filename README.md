@@ -1,5 +1,5 @@
 # Neural-Tile
-Creating larger Neural-Style images through automated tiling.
+Creating a larger Neural-Style images through automated tiling.
 
 ---
 The idea for the script comes from a combination of techniques discovered by [SwoosHkiD/bododge](https://github.com/bododge) and [ProGamerGov](https://github.com/ProGamerGov) which was posted on the [Neural-Style Wiki](https://github.com/jcjohnson/neural-style/wiki/Techniques-For-Increasing-Image-Quality-Without-Buying-a-Better-GPU).
