@@ -72,7 +72,7 @@ main(){
 	for tile in `ls $tiles_dir | grep $clean_name"_"[0-9][0-9]".png"`
 	do
 		tile_name="${tile%.*}"
-		convert elon_9.png -alpha set -virtual-pixel transparent -channel A -morphology Distance Euclidean:1,50\! +channel elon_99.png
+		convert $tiles_dir/$tile -alpha set -virtual-pixel transparent -channel A -morphology Distance Euclidean:1,50\! +channel "$feathered_dir/$tile_name.png"
 	done
 	
 	# 7. Smush the feathered tiles together
