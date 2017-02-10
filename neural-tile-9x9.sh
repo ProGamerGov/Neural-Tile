@@ -51,7 +51,7 @@ main(){
 	mkdir -p $tiles_dir
 	for tile in "${clean_name}_"{0..81}.png
 	do
-		neural_style_tiled $out_dir/$tile $style $tiles_dir/$tile
+		time neural_style_tiled $out_dir/$tile $style $tiles_dir/$tile
 	done
 
 	#Perform the required mathematical operations:	
