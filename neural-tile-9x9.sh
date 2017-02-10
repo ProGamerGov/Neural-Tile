@@ -29,7 +29,7 @@ main(){
 	# 2. Creates your original styled output. This step will be skipped if you place a previously styled image with the same name 
 	# as your specified "content image", located in your Neural-Style/output/<Styled_Image> directory.
 	if [ ! -s $out_file ] ; then
-		neural_style $input $style $out_file
+		time neural_style $input $style $out_file
 	fi
 	
 	# 3. Chop the styled image into 9x9 tiles with the specified overlap value.
