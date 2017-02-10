@@ -49,7 +49,7 @@ main(){
 	echo Processing individual tiles...
 	tiles_dir="$out_dir/tiles"
 	mkdir -p $tiles_dir
-	for tile in `ls $out_dir | grep $clean_name"_"[1-8][0-9]".png"`
+	for tile in "${clean_name}_"{0..81}.png
 	do
 		neural_style_tiled $out_dir/$tile $style $tiles_dir/$tile
 	done
