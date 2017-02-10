@@ -49,7 +49,7 @@ main(){
 	echo Processing individual tiles...
 	tiles_dir="$out_dir/tiles"
 	mkdir -p $tiles_dir
-	for tile in "${clean_name}_"{0..81}.png
+	for tile in "${clean_name}_"{0..80}.png
 	do
 		time neural_style_tiled $out_dir/$tile $style $tiles_dir/$tile
 	done
@@ -69,7 +69,7 @@ main(){
 	echo Feathering tiles...
 	feathered_dir=$out_dir/feathered
 	mkdir -p $feathered_dir
-	for tile in `ls $tiles_dir | grep $clean_name"_"[0-9][0-9]".png"`
+	for tile in "${clean_name}_"{0..80}.png
 	do
 		tile_name="${tile%.*}"
 		convert $tiles_dir/$tile -alpha set -virtual-pixel transparent -channel A -morphology Distance Euclidean:1,50\! +channel "$feathered_dir/$tile_name.png"
